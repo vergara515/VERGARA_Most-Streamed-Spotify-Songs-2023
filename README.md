@@ -1,5 +1,9 @@
 # Most Streamed Spotify Songs 2023
 
+Author: Vergara, Revie Shane D.
+
+---
+
 In this exploratory data analysis (EDA), a dataset about the popular tracks on Most Streamed Spotify Songs 2023 is explored along with its various musical attributes and their relationship to popularity metrics like the number of streams. An initial exploration provided summary statistics, focusing on key features such as release dates, BPM, and danceability which helped understand the different features available. Through visualizations like bar charts and scatter plots, trends and patterns are uncovered that reveal insights into what makes a track successful. Finally, correlations between musical characteristics and streams are also investigated, offering recommendations to better understand the dynamics of popular music.
 
 ---
@@ -388,14 +392,358 @@ _Analysis:_
 
 As the graph shows, the number of tracks released per year had a steady increse around 2000, but had a high sharp increase around 2020. This indicates that more tracks were released around 2020 compared to the years before that.
 
-### b.1. Does the number of tracks released per month follow any noticeable patterns? 
+### b. Does the number of tracks released per month follow any noticeable patterns? Which month sees the most releases?
 
+![image](https://github.com/user-attachments/assets/f083cbaa-3c14-49c5-aa08-40e31ff25f82)
 
+_Function:_
 
+1. **plt.figure(figsize = (10, 5))**
 
-### b.2. Which month sees the most releases?
+   > Description: This function initializes the figure for the plot with a specific size of 10 inches wide and 5 inches tall.
 
+2. **tracks_per_month = data['released_month'].value_counts().sort_index()**
 
+   > Description: The function **"data['released_month'].value_counts()"** counts the occurences of each unique month in the 'released_month' column.
+   
+   > Description: The function **".sort_index()"** sorts the series by the month, ensuring that the months appear in calendar order.
 
+   > > All in all, they are stored in variable name **"tracks_per_month"**.
 
+3. **sns.barplot(x=tracks_per_month.index, y=tracks_per_month.values)**
+   
+   > Description: The function **"sns.barplot"** creates a bar plot of the number of tracks released.
 
+   > Description: The function **"x=tracks_per_month.index"** represents the months in chronological order.
+   
+   > Description: The function **"y=tracks_per_month.values"** represents the number of tracks released in each month.
+
+4. **plt.title('Number of Tracks Released per Month')**
+
+   > Description: This function allows the plot to have a title "Number of Tracks Released per Month".
+
+5. **plt.xlabel('Month')**
+
+   > Description: This function labels the x-axis as "Month", representing the number of released track per month.
+
+6. **plt.ylabel('Number of Tracks')**
+
+   > Description: This function labels the y-axis as "Number of Tracks", representing the number of tracks for each month.
+
+_Analysis:_
+
+As observed, there are no noticeable patterns or trends in the number of tracks released per month. The tracks being released per month just happends to be more in the start of the year which is January and about the mid-year, Summer season, which is May. Accordingly, the month with the most tracks released is during January.
+
+---
+
+## Genre and Music Characteristics
+
+In this part, the relationship between streams and various musical arrtibutues revealed how these can contribute to a track's popularity. Additionally, the correlations between danceability, energy, valence, and acousticness provided insights into how these qualities intereact.
+
+### a. Examine the correlation between streams and musical attributes like bpm, danceability_%, and energy_%. Which attributes seem to influence streams the most?
+
+![image](https://github.com/user-attachments/assets/590fe4de-8f98-46ff-98c6-002544272f1f)
+
+_Functions:_
+
+1. **plt.figure(figsize = (10, 5))**
+
+   > Description: This function initializes the figure for the plot with a specific size of 10 inches wide and 5 inches tall.
+
+2. **sns.heatmap(data[['streams', 'bpm', 'danceability_%', 'energy_%', 'valence_%', 'acousticness_%']].corr(), annot = True, cmap = 'coolwarm', vmin = -1, vmax = 1)**
+
+   > Description: The function **"sns.heatmap(data[['streams', 'bpm', 'danceability_%', 'energy_%', 'valence_%', 'acousticness_%']]"** creates a heatmap from the correlation matrix. Moreover, it only selects the specific columns from the data.
+   
+   > Description: The function **".corr()"** calculates the correlation matrix from the selected columns.
+
+   > Description: The parameter **"annot = True"** adds the correlation values within each cell of the heatmap.
+
+   > Description: The parameter **"cmap = 'coolwarm'"** specifies the color map used in the heatmap.
+
+   > Description: The functions **"vmin = -1"** and **"vmax = 1"** set the color scale to range from -1 (negative correlation) to 1 (positive correlation).
+
+3. **plt.title("Correlation Matrix of Streams and Musical Attributes")**
+
+   > Description: This function allows the plot to have a title "Correlation Matrix of Streams and Musical Attributes".
+
+_Analysis:_
+
+Examining the correlation matrix, the number of streams does not seem to evidently inluence any specific musical attribute like bpm, danceability, or energy as there is almost no correlation. However, among the musical attributes, the danceability of the track have the most inluence compared to the other attributes as it has the highest correlation to streams.
+
+### b.1. Is there a correlation between danceability_% and energy_%?
+
+![image](https://github.com/user-attachments/assets/7ee443ce-da1b-4aa0-baaf-ce902328bda5)
+
+_Functions:_
+
+1. **plt.figure(figsize = (8, 5))**
+
+   > Description: This function initializes the figure for the plot with a specific size of 8 inches wide and 5 inches tall.
+
+2. **sns.scatterplot(x = 'danceability_%', y = 'energy_%', hue = 'streams', palette = 'viridis', data = data**
+
+   > Description: The function **"sns.scatterplot(x = 'danceability_%', y = 'energy_%')"** creates a scatter plot from the data. It also sets the x-axis to the 'danceablity_%' attribute and the y-axis to the 'energy_%' attribute of the each track.
+
+   > Description: The parameter **"hue = 'streams'"** sets the color according to the 'streams' column.
+
+   > Description: The parameter **"palette = 'viridis'"** defines the color pallate used for the plot.
+
+   > Description: The parameter **"data = data"** specifies which source of data set to be used.
+
+3. **plt.title("Scatter Plot of Danceability % vs. Energy %")**
+
+   > Description: This function allows the plot to have a title "Scatter Plot of Danceability % vs. Energy %".
+
+4. **plt.xlabel("Danceability %")**
+
+   > Description: This function labels the x-axis as "Danceability %", representing the danceability percentage per track.
+
+5. **plt.ylabel("Energy %")**
+
+   > Description: This function labels the y-axis as "Energy %", representing the energy percentage per track.
+
+_Analysis:_
+
+By observing the scatter plot, a slight positive correlation can be induced. This is because points with higher danceability generally appear with higher energy values, but again, the correlation is not strong—there’s a wide spread in values. This suggests that while some tracks may be both highly danceable and energetic, these attributes don’t necessarily increase together in a consistent way.
+
+### b.2. How about valence_% and acousticness_%?
+
+![image](https://github.com/user-attachments/assets/ecf71010-369e-47eb-8d2a-3c203d516510)
+
+1. **plt.figure(figsize = (8, 5))**
+
+   > Description: This function initializes the figure for the plot with a specific size of 8 inches wide and 5 inches tall.
+
+2. **sns.scatterplot(x = 'valence_%', y = 'acousticness_%', hue = 'streams', palette = 'viridis', data = data)**
+
+   > Description: The function **"sns.scatterplot(x = 'valence_%', y = 'acousticness_%')"** creates a scatter plot from the data. It also sets the x-axis to the 'valence_%' attribute and the y-axis to the 'acousticness_%' attribute of the each track.
+
+   > Description: The parameter **"hue = 'streams'"** sets the color according to the 'streams' column.
+
+   > Description: The parameter **"palette = 'viridis'"** defines the color pallate used for the plot.
+
+   > Description: The parameter **"data = data"** specifies which source of data set to be used.
+
+3. **plt.title("Scatter Plot of Valence % vs. Acousticness %")**
+
+   > Description: This function allows the plot to have a title "Scatter Plot of Valence % vs. Acousticness %".
+
+4. **plt.xlabel("Valence %")**
+
+   > Description: This function labels the x-axis as "Valence %", representing the valence percentage per track.
+
+5. **plt.ylabel("Acousticness %")**
+
+   > Description: This function labels the y-axis as "Acousticness %", representing the acousticness percentage per track.
+
+_Analysis:_
+
+From the scatter plot, it appears that there is no strong correlation between Valence % and Acousticness %. This is because the points are widely scattered across the graph without a clear trend. Most tracks, however, seem to have lower Acousticness % values, even at varying levels of Valence.
+
+---
+
+## Platform Popularity
+
+In this section, the number of tracks in Spotify, Deezer, and Apple playlists are compared. By analyzing the playlist counts across platforms, the platform which tends to include more popular tracks are identified. Accordingly, a bar plot is used to analyze the platform popularity.
+
+### a. How do the numbers of tracks in spotify_playlists, deezer_playlist, and apple_playlists compare? Which platform seems to favor the most popular tracks?
+
+![image](https://github.com/user-attachments/assets/8c47be76-28cb-49ad-bca2-701bcc95b572)
+
+_Functions:_
+
+1. **platform_counts = data[['in_spotify_playlists', 'in_deezer_playlists', 'in_apple_playlists']].sum()**
+
+   > Description: The function **"data[['in_spotify_playlists', 'in_deezer_playlists', 'in_apple_playlists']].sum()"** counts the total number of tracks on each platform and are added.
+
+   > All together, they are stored in variable **"pkatform_counts"**.
+
+2. **plt.figure(figsize=(8, 5))**
+
+   > Description: This function initializes the figure for the plot with a specific size of 8 inches wide and 5 inches tall.
+
+3. **sns.barplot(x=platform_counts.index, y=platform_counts.values)**
+
+   > Description: The function **"sns.barplot()"** creates a bar plot from the data.
+
+   > Description: The function **"x=platform_counts.index"** displays the total number of tracks for each platform's playlist on the x-axis
+
+   > Description: The function "**y=platform_counts.values"** counts the number of tracks on each platform are set on the y-axis. These count values are represented by the height of each bar (one for each platform).
+
+4. **plt.title("Platform Popularity Comparison")**
+
+   > Description: This function allows the plot to have a title "Platform Popularity Comparison".
+
+5. **plt.xlabel("Platform")**
+
+   > Description: This function labels the x-axis as "Platform", representing the platforms.
+
+6. **plt.ylabel("Number of Tracks")**
+
+   > Description: This function labels the y-axis as "Number of Tracks", representing the number of tracks per platform playlist.
+
+_Analysis:_
+
+By observation, there is a big difference between the number of tracks across spotify_playlists, deezer_playlist, and apple_playlists. The Spotify platform contain a high number of tracks in playlists than both Deezer and Apple combined. Accordingly the platform that seems to favor the most popular tracks is Spotify.
+
+---
+
+## Advanced Analysis
+
+In this last part, musical features like key and mode are examined to see whether there are preferences for certain tonalities. Moreover, genre and occurences of artist in playlists or charts are observed to help identify which genre or artist have a stronger platform presence.
+
+### a. Based on the streams data, can you identify any patterns among tracks with the same key or mode (Major vs. Minor)?
+
+![image](https://github.com/user-attachments/assets/e62c7fc9-ea6c-4e5e-998f-a98d292f726d)
+
+_Functions:_
+
+1. **avg_streams_by_key = data.groupby('key')['streams'].mean().reset_index()**
+
+   > Description: The function **"data.groupby('key')['streams']"** represents the musical key of each track and computes the average number of streams for each distinct musical key.
+
+   > Description: The function **".mean()"** calculates the mean (average) number of streams for each musical key.
+
+   > Description: The function ".reset_index()" cleans data set where the musical key and the corresponding average streams are both columns.
+
+2. **graphkey_data = avg_streams_by_key**
+
+   > Description: This funcion assigns the **"avg_streams_by_key"** to a variable **"graphkey_data"**.
+
+3. **"graphkey_data['key'] = avg_streams_by_key['key'].astype(str)"**
+
+   > Description: The function **".astype(str)"** converts the data type of the 'key' column from its current type to string. 
+
+4. **plt.figure(figsize=(8, 5))**
+
+   > Description: This function initializes the figure for the plot with a specific size of 8 inches wide and 5 inches tall.
+
+5. **sns.barplot(data=avg_streams_by_key, x='key', y='streams')**
+
+   > Description: The function **"sns.barplot(data=avg_streams_by_key"** creates a bar plot about the data set stored in **"avg_streams_by_key"**.
+
+   > Description: The function **"x='key'"** specifies the column from avg_streams_by_key to be used for the x-axis, representing the different musical keys.
+
+   > Description: The function **"y='streams'"** specifies the column from avg_streams_by_key to be used for the y-axis, representing the average number of streams for each key.
+
+6. **plt.title("Average Streams by Key")**
+
+   > Description: This function allows the plot to have a title "Average Streams by Key".
+
+7. **plt.xlabel("Key")**
+
+   > Description: This function labels the x-axis as "Key", representing the keys.
+
+8. **plt.ylabel("Average Streams")**
+
+   > Description: This function labels the y-axis as "Average Streams", representing the number of tracks per key.
+
+_Analysis:_
+
+Based on the bar plot, there are no evident patterns among the tracks. However, it can be observed that sharper keys tend to have higher average streams compared to its base keys. It also noticeable that the C# key has the most average keys.
+
+---
+
+![image](https://github.com/user-attachments/assets/ac52e3c9-2303-49c9-ba60-4322e617a0d0)
+
+_Functions:_
+
+1. **streams_by_mode = data.groupby('mode')['streams'].mean().reset_index()**
+
+   > Description: The function **"data.groupby('mode')['streams']"** represents the mode of each track and computes the average number of streams for each mode.
+
+   > Description: The function **".mean()"** calculates the mean (average) number of streams for each mode.
+
+   > Description: The function ".reset_index()" cleans data set where the mode and the corresponding average streams are both columns. 
+
+32. **plt.figure(figsize=(8, 5))**
+
+   > Definition: This function initializes the figure for the plot with a specific size of 8 inches wide and 5 inches tall.
+
+3. **sns.barplot(data=streams_by_mode, x='mode', y='streams')**
+
+   > Description: The function **"sns.barplot(data=streams_by_mode"** creates a bar plot about the data set stored in **"streams_by_mode"**.
+
+   > Description: The function **"x='mode'"** specifies the column from streams_by_mode to be used for the x-axis, representing the modes.
+
+   > Description: The function **"y='streams'"** specifies the column from streams_by_mode to be used for the y-axis, representing the average number of streams for each mode. 
+
+4. **plt.title("Average Streams by Mode (Major vs. Minor)")**
+
+   > Description: This function allows the plot to have a title "Average Streams by Mode (Major vs. Minor)".
+
+5. **plt.xlabel("Mode")**
+
+   > Description: This function labels the x-axis as "Mode", representing the mode (Major or Minor).
+
+6. **plt.ylabel("Average Streams")**
+
+   > Description: This function labels the y-axis as "Average Streams", representing the number of tracks per mode.
+
+_Analysis:_
+
+Based on the bar plot, Minor mode are more streamed compared to Major mode. In other words, people tend to enjoy more somber emotional quality of music than bright and happy ones.
+
+### b. Do certain genres or artists consistently appear in more playlists or charts? Perform an analysis to compare the most frequently appearing artists in playlists or charts.
+
+![image](https://github.com/user-attachments/assets/2d5aff7f-9edb-402e-bb7c-56017249607a)
+
+_Functions:_
+
+1. **artist_playlist_counts = data['artist(s)_name'].value_counts().reset_index()**
+
+   > Description: The function **"data['artist(s)_name']"** contains the names of the artists.
+
+   > Description: The function **".value_counts()"** counts how many times each unique value appears in a specified column.
+   
+   > Description: The function **".reset_index()"** used to reset the index of the resulting Series from value_counts().
+
+   > All together, they are stored in variable **"artist_playlist_counts"**
+
+2. **artist_playlist_counts.columns = ['artist', 'playlist_count']**
+
+   > Description: The function **".columns"** refers to the column names of the data.
+
+3. **top_artists_playlists = artist_playlist_counts.head(10)**
+
+   > Description: The function **"artist_playlist_counts"** contains data about artists and how many playlists they are featured in.
+
+   > Description: The function **".head(10)"** returns the first 10 rows of the artist_playlist_counts.
+
+   > All together, they are stored in variable **"top_artists_playlists"**.
+
+4. **plt.figure(figsize=(12, 6))**
+
+   > Description: This function initializes the figure for the plot with a specific size of 12 inches wide and 6 inches tall.
+
+5. **sns.barplot(x='playlist_count', y='artist', data=top_artists_playlists)**
+
+   > Description: The function **"sns.barplot()"** creates a bar plot about the **top_artists_playlists**.
+
+   > Description: The function **"x='playlist_count'"** represents how many playlists the artist’s tracks appear in.
+
+   > Description: The function **"y='artist'"** represents the artists.
+
+   > Description: The function **"data=top_artists_playlists"** defines the data source for the plot.
+
+6. **plt.title('Top 10 Artists by Playlist Appearances')**
+
+   > Description: This function allows the plot to have a title "Top 10 Artists by Playlist Appearances".
+   
+7. **plt.xlabel('Number of Playlists')**
+
+   > Description: This function labels the x-axis as "Number of Playlists", representing the number of playlists per artist.
+
+8. **plt.ylabel('Artist')**
+
+   > Description: This function labels the y-axis as "Artist", representing the artist.
+
+_Analysis:_
+
+Based on the bar plot, certain genres or artists do consistently appear in more playlists or charts as they have multiple tracks on the data set provided. Accordingly, the most frequently appearing artists in playlists or charts would be Taylor Swift with around 34 tracks. 
+
+---
+
+## Recommendation
+
+After performing analyzations and through observations, there seems to be missing data in the data set. The missing data could affect the result or how some results could be interpreted; thus, the recommendation would be to fill or research the missing values as it could greatly affect interpretations. Additional insights on what makes a track popular would be the artists. Some artists in the data set are well-known and being famous greatly affects the popularity of a track as more people or fans would listen to it. Moreover, tracks mostly streamed are in these recent years, especially 2020, as through time, naturally, musical trends shift and tracks are being made based on that so people would stream it more.
